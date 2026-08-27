@@ -9,6 +9,8 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
+      - name: Audit — no committed private-key-shaped literals (0x + 64 hex)
+        run: bash scripts/audit-key-literals.sh
       - uses: pnpm/action-setup@v4
       - uses: actions/setup-node@v4
         with:

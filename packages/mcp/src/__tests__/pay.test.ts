@@ -2,9 +2,11 @@ import { describe, it, expect, vi, afterEach } from "vitest";
 import { encodePaymentRequiredHeader } from "@x402/core/http";
 import { loadConfig, POLICY } from "../config.js";
 import { paidCall } from "../pay.js";
+import { testPayerKey } from "./_fixtures.js";
 
-// throwaway test key (secp256k1 private key = 1); never a real wallet, never used on-chain.
-const KEY = "0x0000000000000000000000000000000000000000000000000000000000000001";
+// Deterministic throwaway signing key, generated at runtime (never a committed
+// private-key-shaped literal). See _fixtures.ts.
+const KEY = testPayerKey();
 const USDG = POLICY.usdg;
 const TREASURY = POLICY.treasury;
 const WRONG_ASSET = "0x1111111111111111111111111111111111111111";

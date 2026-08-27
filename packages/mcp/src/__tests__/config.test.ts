@@ -1,8 +1,10 @@
 import { describe, it, expect } from "vitest";
 import { loadConfig, validateRequirement, POLICY } from "../config.js";
+import { testPayerKey } from "./_fixtures.js";
 
-// throwaway test key (secp256k1 private key = 1); never a real wallet, never used on-chain.
-const KEY = "0x0000000000000000000000000000000000000000000000000000000000000001";
+// Deterministic throwaway signing key, generated at runtime (never a committed
+// private-key-shaped literal). See _fixtures.ts.
+const KEY = testPayerKey();
 
 describe("MCP config + payment-mode gating", () => {
   it("defaults to manual", () => {
