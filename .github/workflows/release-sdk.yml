@@ -1,0 +1,53 @@
+name: Release sdk (beta, OIDC)
+# Tokenless publish via npm Trusted Publishing (OIDC). No NPM_TOKEN, no .npmrc
+# credentials. npm (>= 11.5.1) exchanges the GitHub OIDC id-token for a
+# short-lived publish credential at run time. Trusted Publisher setup: see
+# packages/sdk/RELEASING.md (or the SDK README).
+on:
+  workflow_dispatch:
+    inputs:
+      confirm:
+        description: 'Type exactly "publish-sdk-beta" to confirm publishing'
+        required: true
+        default: ""
+permissions:
+  contents: read
+  id-token: write
+jobs:
+  release:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Guard — main branch + explicit confirmation
+        run: |
+          if [ "${{ github.ref_name }}" != "main" ]; then echo "::error::must run from main"; exit 1; fi
+          if [ "${{ inputs.confirm }}" != "publish-sdk-beta" ]; then echo "::error::confirmation must be exactly 'publish-sdk-beta'"; exit 1; fi
+      - uses: actions/checkout@v4
+      - uses: pnpm/action-setup@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+      - name: Ensure npm supports Trusted Publishing (OIDC)
+        run: npm install -g npm@latest && npm --version
+      - run: pnpm install --frozen-lockfile
+      - run: pnpm --filter @interventiononchain/sdk build
+      - run: pnpm --filter @interventiononchain/sdk test
+      - name: Pack, inspect tarball, refuse on leaks / source maps
+        working-directory: packages/sdk
+        run: |
+          set -euo pipefail
+          TGZ=$(npm pack --silent)
+          rm -rf _inspect && mkdir -p _inspect && tar -xzf "$TGZ" -C _inspect
+          echo "=== tarball files ==="; find _inspect/package -type f | sort
+          if find _inspect/package \( -name '*.map' -o -name '.env' -o -name '.env.*' -o -name '.npmrc' -o -name 'Dockerfile*' -o -name 'docker-compose*' \) | grep -q .; then
+            echo "::error::tarball contains source maps or deployment/secret files"; exit 1; fi
+          if grep -rIiE 'pattern-rules|@intervention/engine|-----BEGIN|npm_[A-Za-z0-9]{20}|sk-ant-|AKIA[0-9A-Z]{16}|alch_|proapi_|0x[0-9a-fA-F]{64}' _inspect/package; then
+            echo "::error::tarball contains engine/rules or credential material"; exit 1; fi
+          echo "TGZ=$PWD/$TGZ" >> "$GITHUB_ENV"
+      - name: Smoke-install the tarball in a clean temp project
+        run: |
+          set -euo pipefail
+          TMP=$(mktemp -d); cd "$TMP"; npm init -y >/dev/null
+          npm install "$TGZ"
+      - name: Publish via OIDC (no token)
+        working-directory: packages/sdk
+        run: npm publish --provenance --access public --tag beta

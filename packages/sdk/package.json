@@ -1,0 +1,55 @@
+{
+  "name": "@interventiononchain/sdk",
+  "version": "0.1.0-beta.2",
+  "description": "Thin TypeScript client for the Intervention contract-scanning API.",
+  "private": false,
+  "keywords": [
+    "intervention",
+    "smart-contract",
+    "security",
+    "scanner",
+    "evm",
+    "robinhood",
+    "sdk"
+  ],
+  "license": "MIT",
+  "type": "module",
+  "main": "./dist/index.js",
+  "module": "./dist/index.js",
+  "types": "./dist/index.d.ts",
+  "exports": {
+    ".": {
+      "types": "./dist/index.d.ts",
+      "import": "./dist/index.js"
+    }
+  },
+  "files": [
+    "dist",
+    "README.md",
+    "LICENSE"
+  ],
+  "sideEffects": false,
+  "engines": {
+    "node": ">=18"
+  },
+  "publishConfig": {
+    "access": "public",
+    "tag": "beta"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/Wenyveo/intervention.git",
+    "directory": "packages/sdk"
+  },
+  "homepage": "https://github.com/Wenyveo/intervention/tree/main/packages/sdk#readme",
+  "bugs": "https://github.com/Wenyveo/intervention/issues",
+  "scripts": {
+    "build": "tsup src/index.ts --format esm --dts --clean",
+    "test": "vitest run"
+  },
+  "devDependencies": {
+    "tsup": "^8.3.0",
+    "typescript": "^5.7.0",
+    "vitest": "^3.0.0"
+  }
+}

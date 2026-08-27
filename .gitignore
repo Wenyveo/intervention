@@ -1,0 +1,12 @@
+node_modules/
+dist/
+*.tgz
+*.log
+.env
+.env.*
+.npmrc
+.DS_Store
+_inspect/
+coverage/
+.turbo/
+*.tsbuildinfo

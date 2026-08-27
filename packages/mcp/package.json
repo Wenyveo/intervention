@@ -1,0 +1,64 @@
+{
+  "name": "@interventiononchain/mcp",
+  "version": "0.1.0",
+  "description": "Intervention Security MCP server — give your AI agent free and pay-per-call (x402 USDG on Robinhood Chain) smart-contract and code security scans, plus a read-only Guard preflight. Thin hosted client; no engine or rules bundled.",
+  "license": "MIT",
+  "author": "Intervention",
+  "homepage": "https://interventionprotocol.io/agents",
+  "bugs": "https://github.com/Wenyveo/intervention/issues",
+  "keywords": [
+    "mcp",
+    "model-context-protocol",
+    "security",
+    "scanner",
+    "solidity",
+    "robinhood-chain",
+    "x402",
+    "usdg",
+    "ai-agent",
+    "claude",
+    "cursor"
+  ],
+  "engines": {
+    "node": ">=20"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/Wenyveo/intervention.git",
+    "directory": "packages/mcp"
+  },
+  "publishConfig": {
+    "access": "public",
+    "tag": "latest"
+  },
+  "type": "module",
+  "bin": {
+    "intervention-mcp": "dist/index.js"
+  },
+  "files": [
+    "dist",
+    "README.md",
+    "LICENSE",
+    "package.json"
+  ],
+  "scripts": {
+    "build": "tsup",
+    "dev": "tsup src/index.ts --format esm --watch",
+    "start": "node dist/index.js",
+    "test": "vitest run"
+  },
+  "dependencies": {
+    "@modelcontextprotocol/sdk": "^1.0.4",
+    "@x402/core": "2.23.0",
+    "@x402/evm": "2.23.0",
+    "@x402/fetch": "2.23.0",
+    "viem": "2.46.3",
+    "zod": "^3.23.8"
+  },
+  "devDependencies": {
+    "@types/node": "^22.13.4",
+    "tsup": "^8.5.1",
+    "typescript": "^5.7.3",
+    "vitest": "^3.0.0"
+  }
+}

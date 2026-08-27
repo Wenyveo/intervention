@@ -1,0 +1,15 @@
+{
+  "name": "intervention-public",
+  "version": "0.0.0",
+  "private": true,
+  "description": "Public SDK & MCP clients for Intervention (Robinhood Chain security scanner).",
+  "license": "MIT",
+  "repository": { "type": "git", "url": "https://github.com/Wenyveo/intervention.git" },
+  "homepage": "https://interventionprotocol.io",
+  "packageManager": "pnpm@9.15.0",
+  "engines": { "node": ">=20" },
+  "scripts": {
+    "build": "pnpm -r build",
+    "test": "pnpm -r test"
+  }
+}
