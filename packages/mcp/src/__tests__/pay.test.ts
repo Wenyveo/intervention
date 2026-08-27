@@ -3,7 +3,8 @@ import { encodePaymentRequiredHeader } from "@x402/core/http";
 import { loadConfig, POLICY } from "../config.js";
 import { paidCall } from "../pay.js";
 
-const KEY = "0x59c6995e998f97a5a0044966f0945389dc9e86dae88c7a8412f4603b6b78690d";
+// throwaway test key (secp256k1 private key = 1); never a real wallet, never used on-chain.
+const KEY = "0x0000000000000000000000000000000000000000000000000000000000000001";
 const USDG = POLICY.usdg;
 const TREASURY = POLICY.treasury;
 const WRONG_ASSET = "0x1111111111111111111111111111111111111111";

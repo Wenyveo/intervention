@@ -1,7 +1,8 @@
 import { describe, it, expect } from "vitest";
 import { loadConfig, validateRequirement, POLICY } from "../config.js";
 
-const KEY = "0x59c6995e998f97a5a0044966f0945389dc9e86dae88c7a8412f4603b6b78690d";
+// throwaway test key (secp256k1 private key = 1); never a real wallet, never used on-chain.
+const KEY = "0x0000000000000000000000000000000000000000000000000000000000000001";
 
 describe("MCP config + payment-mode gating", () => {
   it("defaults to manual", () => {
